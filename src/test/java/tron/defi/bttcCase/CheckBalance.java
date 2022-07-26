@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import tron.common.utils.MyIRetryAnalyzer;
 import tron.defi.base.Base;
 
-public class sendBtt extends  Base{
+public class CheckBalance extends  Base{
 
     @BeforeClass
     public void before() throws Exception{

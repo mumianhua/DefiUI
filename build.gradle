@@ -34,7 +34,7 @@ test {
 task tronscan(type: Test) {
 
     useTestNG {
-        suites(file('src/test/resources/testng_tronscanUI.xml'))
+        suites(file('src/test/resources/testng_bttc.xml'))
         parallel 'tests'
         threadCount 1
 
@@ -47,20 +47,5 @@ task tronscan(type: Test) {
 }
 
 
-
-task chromeExtension(type: Test) {
-    useTestNG {
-        suites(file('src/test/resources/testng_chromeExtensitonUI.xml'))
-        parallel 'tests'
-        threadCount 1
-
-    }
-    testLogging {
-        exceptionFormat = 'full'
-        showStackTraces = "true"
-    }
-
-
-}
 
 
