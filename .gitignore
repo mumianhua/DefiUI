@@ -1,0 +1,10 @@
+.idea
+*iml
+.DS_Store
+socketMessage.log
+# gradle
+/.gradle
+build/
+exceptionLogs
+# log
+logs
