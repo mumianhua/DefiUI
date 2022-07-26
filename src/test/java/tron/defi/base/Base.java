@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import tron.defi.pages.MetaMaskLoginPage;
 import tron.common.utils.Configuration;
+import tron.defi.pages.TronlinkLoginPage;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -54,14 +55,40 @@ public class Base {
         metaMaskloginPage.login_btn.click();
         DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-        DRIVER.getWindowHandle();
+        String first = DRIVER.getWindowHandle();
+        System.out.println("first: " + first);
         Thread.sleep(10000);
 
+
+        //login tronlink
+        String tronlinkUrl = "chrome-extension://ibnejdfjmmkpcnlpebklmnkoeoihofec/packages/popup/build/index.html";
+        String js = "window.open(\"" + tronlinkUrl + "\")";
+        DRIVER.executeScript(js);
+        DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        String second = DRIVER.getWindowHandle();
+        System.out.println("second: "+second);
+        DRIVER.switchTo().window(first).close();
+
+        for(String tem: DRIVER.getWindowHandles()){
+          second = tem;
+        }
+        DRIVER.switchTo().window(second);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        DRIVER.get(tronlinkUrl);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        TronlinkLoginPage tlLoginPage = new TronlinkLoginPage(DRIVER);
+        tlLoginPage.password_input.sendKeys("Sophia123");
+        DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        tlLoginPage.login_btn.click();
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         //login bttc
-        String js = "window.open(\"" + URL + "\")";
+        js = "window.open(\"" + URL + "\")";
         DRIVER.executeScript(js);
         DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
 
       } catch (Exception e) {
         e.printStackTrace();
