@@ -1,5 +1,7 @@
 package tron.defi.base;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,44 +14,43 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseBak {
 
-    public ChromeDriver DRIVER;
-    static String password = Configuration.getByPath("testng.conf")
+  public ChromeDriver DRIVER;
+  static String password = Configuration.getByPath("testng.conf")
       .getString("chromeExtension.password");
-    public String accountAddress001 = Configuration.getByPath("testng.conf")
+  public String accountAddress001 = Configuration.getByPath("testng.conf")
       .getString("chromeExtension.accountAddress001");
-    public String accountKey001 = Configuration.getByPath("testng.conf")
+  public String accountKey001 = Configuration.getByPath("testng.conf")
       .getString("chromeExtension.accountKey001");
-    public String accountAddress002 = Configuration.getByPath("testng.conf")
+  public String accountAddress002 = Configuration.getByPath("testng.conf")
       .getString("chromeExtension.accountAddress002");
 
-    public String URL = Configuration.getByPath("testng.conf")
-        .getString("bttc.url");
+  public String URL = Configuration.getByPath("testng.conf")
+      .getString("bttc.url");
 
 
-    Integer retryLoginTimes = 1;
+  Integer retryLoginTimes = 1;
 
 
-
-    public void setUpChromeDriver()throws Exception {
+  public void setUpChromeDriver() throws Exception {
 //      killChromePid();
-      System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver103");
-      ChromeOptions options = new ChromeOptions();
-      options.addArguments("--user-data-dir=/Users/sophiawang/Library/Application Support/Google/Chrome/");
-//      options.addArguments ("load-extension=/Users/sophiawang/Library/Application Support/Google/Chrome/Default/Extensions/ibnejdfjmmkpcnlpebklmnkoeoihofec/3.26.8_1");
-//      options.addArguments ("load-extension=/Users/sophiawang/Library/Application Support/Google/Chrome/Default/Extensions/");
-      options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-      options.addArguments("--enable-extensions");
-      options.addArguments("--verbose");
-      options.setHeadless(Boolean.FALSE);
-      DRIVER = new ChromeDriver(options);
+    System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver103");
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--user-data-dir=/Users/sophiawang/Library/Application Support/Google/Chrome/");
+    options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+    options.addArguments("--enable-extensions");
+    options.addArguments("--verbose");
+    options.setHeadless(Boolean.FALSE);
+    DRIVER = new ChromeDriver(options);
 
-    }
+  }
 
   public boolean loginAccount() throws Exception {
     while (retryLoginTimes > 0) {
       try {
         retryLoginTimes--;
         //login metaFox
+//        DRIVER.manage().window().fullscreen();
+
         String metaMaskUrl = "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html";
         DRIVER.get(metaMaskUrl);
         DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -61,6 +62,10 @@ public class BaseBak {
 
         String first = DRIVER.getWindowHandle();
         System.out.println("first: " + first);
+        Thread.sleep(10000);
+
+        String to = "0xEbae50590810b05D4B403F13766f213518Edef65";
+        switchMetamaskAddress(to);
 
         //login tronlink
         String tronlinkUrl = "chrome-extension://ibnejdfjmmkpcnlpebklmnkoeoihofec/packages/popup/build/index.html";
@@ -86,8 +91,8 @@ public class BaseBak {
         tlLoginPage.login_btn.click();
         DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String add = "TH48niZfbwHMyqZwEB8wmHfzcvR8ZzJKC6";
-        switchTronlinkAddress(add);
+        switchTronlinkAddress("TXTNcgJHD9GPfpiTbSG2VGtfdfii9VcpEr");
+        DRIVER.manage().window().maximize();
 
         //login bttc
         js = "window.open(\"" + URL + "\")";
@@ -113,6 +118,16 @@ public class BaseBak {
     Runtime.getRuntime().exec("sh kill_chrome.sh");
   }
 
+  public void switchMetamaskAddress(String add) {
+    DRIVER.manage().window().setSize(new Dimension(357, 650));
+    DRIVER.findElementByClassName("identicon__address-wrapper").click();
+    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    DRIVER.findElement(By.id("search-accounts")).sendKeys(add);
+    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    DRIVER.findElementByXPath("/html/body/div[1]/div/div[3]/div[4]/div[3]/button").click();
+    DRIVER.manage().window().maximize();
+  }
+
   public void switchTronlinkAddress(String toAddress){
     WebElement ss = DRIVER.findElementByClassName("mw-130");
     DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -129,7 +144,7 @@ public class BaseBak {
     DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
     WebElement tt = DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/span/input");
-    if(tt == null){
+    if(tt == null) {
       System.out.println("222222");
       return;
     }else {
@@ -145,5 +160,4 @@ public class BaseBak {
 
 
   }
-
 }
