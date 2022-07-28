@@ -1,10 +1,11 @@
 package tron.defi.base;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import tron.defi.pages.MetaMaskLoginPage;
 import tron.common.utils.Configuration;
+import tron.defi.pages.TronlinkLoginPage;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -44,104 +45,105 @@ public class BaseBak {
 
     }
 
-    public boolean loginAccount() throws Exception{
-      while (retryLoginTimes > 0) {
-        try {
-          retryLoginTimes--;
-          //login tronlink
-          /*String tronlinkUrl = "chrome-extension://ibnejdfjmmkpcnlpebklmnkoeoihofec/packages/popup/build/index.html";
-          DRIVER.get(tronlinkUrl);
-          DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+  public boolean loginAccount() throws Exception {
+    while (retryLoginTimes > 0) {
+      try {
+        retryLoginTimes--;
+        //login metaFox
+        String metaMaskUrl = "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html";
+        DRIVER.get(metaMaskUrl);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        MetaMaskLoginPage metaMaskloginPage = new MetaMaskLoginPage(DRIVER);
+        metaMaskloginPage.password_input.sendKeys("Sophia123");
+        DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        metaMaskloginPage.login_btn.click();
+        DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-          LoginPage loginPage = new LoginPage(DRIVER);
-          loginPage.password_input.sendKeys("Sophia123");
-          DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-          loginPage.login_btn.click();
+        String first = DRIVER.getWindowHandle();
+        System.out.println("first: " + first);
 
-          DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-          System.out.println("old: "+DRIVER.getTitle());
+        //login tronlink
+        String tronlinkUrl = "chrome-extension://ibnejdfjmmkpcnlpebklmnkoeoihofec/packages/popup/build/index.html";
+        String js = "window.open(\"" + tronlinkUrl + "\")";
+        DRIVER.executeScript(js);
+        DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-          String oldtab = DRIVER.getWindowHandle();
-          Thread.sleep(10000);*/
+        String second = DRIVER.getWindowHandle();
+        System.out.println("second: "+second);
+        DRIVER.switchTo().window(first).close();
 
-          //login metaFox
-          String metaMaskUrl = "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html";
-//          String js = "window.open(\"" + metaMaskUrl + "\")";
-//          DRIVER.executeScript(js);
-          DRIVER.get(metaMaskUrl);
-          DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//          WebElement reloadButton = DRIVER.findElementByXPath("/html/body/div[1]/div[2]/div/button[1]");
-//          if(reloadButton != null){
-//            System.out.println("11111111111111");
-//            reloadButton.click();
-//          }
-//          Thread.sleep(100000);
-//          DRIVER.navigate().refresh();
-//          DRIVER.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
-//
-//          DRIVER.navigate().refresh();
-
-          DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-          MetaMaskLoginPage metaMaskloginPage = new MetaMaskLoginPage(DRIVER);
-          metaMaskloginPage.password_input.sendKeys("Sophia123");
-          DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-          metaMaskloginPage.login_btn.click();
-
-          DRIVER.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
-          System.out.println("old: "+DRIVER.getTitle());
-
-          DRIVER.getWindowHandle();
-          Thread.sleep(10000);
-
-          //login bttc
-          String js = "window.open(\"" + URL + "\")";
-          DRIVER.executeScript(js);
-//          DRIVER.get(URL);
-          DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-          Thread.sleep(60000);
-
-//          DRIVER.findElementByTagName("body").sendKeys(Keys.CONTROL + "t");
-//          DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//          DRIVER.findElementByXPath("/html/body/div/div/section/header/section/div/section[2]/section/section[2]").click();
-//          DRIVER.findElementByXPath("/html/body/div[2]/div/div[2]/div/div[2]/div/section/section/div[2]/div[2]/div").click();
-//          Thread.sleep(60000);
-
-//          DRIVER.quit();
-        } catch (Exception e) {
-          e.printStackTrace();
-          DRIVER.quit();
-          setUpChromeDriver();
+        for(String tem: DRIVER.getWindowHandles()){
+          second = tem;
         }
+        DRIVER.switchTo().window(second);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        DRIVER.get(tronlinkUrl);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        TronlinkLoginPage tlLoginPage = new TronlinkLoginPage(DRIVER);
+        tlLoginPage.password_input.sendKeys("Sophia123");
+        DRIVER.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        tlLoginPage.login_btn.click();
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        String add = "TH48niZfbwHMyqZwEB8wmHfzcvR8ZzJKC6";
+        switchTronlinkAddress(add);
+
+        //login bttc
+        js = "window.open(\"" + URL + "\")";
+        DRIVER.executeScript(js);
+        DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Thread.sleep(30000);
+
+      } catch (Exception e) {
+        e.printStackTrace();
+        DRIVER.quit();
+        setUpChromeDriver();
       }
-      return false;
+    }
+    return false;
 
   }
 
-
-
-    public void logoutAccount() {
-      DRIVER.quit();
-    }
-
-
-    public double getBalanceFromSelectionBtn(String string) {
-      System.out.println("string:" + string);
-      int left = string.indexOf('(');
-      int right = string.indexOf(')');
-      return Double.valueOf(string.substring(left+1,right));
-    }
-
-    public  static void killChromePid() throws IOException {
-      Runtime.getRuntime().exec("sh kill_chrome.sh");
-    }
-
-  public boolean elementIsExist(By locator) {
-    try {
-      DRIVER.findElement(locator);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
+  public void logoutAccount() {
+    DRIVER.quit();
   }
+
+  public  static void killChromePid() throws IOException {
+    Runtime.getRuntime().exec("sh kill_chrome.sh");
+  }
+
+  public void switchTronlinkAddress(String toAddress){
+    WebElement ss = DRIVER.findElementByClassName("mw-130");
+    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    if(ss == null){
+      System.out.println("0000000000000");
+      return;
+    }else {
+      System.out.println("111111111");
+      System.out.println(ss.getText()+" : " + ss.isEnabled());
+      ss.click();
+    }
+    DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/img").click(); //放大镜
+    DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+    WebElement tt = DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/span/input");
+    if(tt == null){
+      System.out.println("222222");
+      return;
+    }else {
+      System.out.println("333333");
+      tt.sendKeys(toAddress);
+    }
+
+    DRIVER.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+    DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div").click();
+    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+
+
+  }
+
 }
