@@ -75,10 +75,12 @@ public class BaseBak {
 
         String second = DRIVER.getWindowHandle();
         System.out.println("second: "+second);
+        System.out.println("size: " + DRIVER.getWindowHandles().size());
         DRIVER.switchTo().window(first).close();
 
         for(String tem: DRIVER.getWindowHandles()){
           second = tem;
+          System.out.println("second: "+second);
         }
         DRIVER.switchTo().window(second);
         DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -98,7 +100,19 @@ public class BaseBak {
         js = "window.open(\"" + URL + "\")";
         DRIVER.executeScript(js);
         DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        Thread.sleep(30000);
+        Thread.sleep(10000);
+        String third = DRIVER.getWindowHandle();
+        System.out.println("third: " + third);
+        DRIVER.switchTo().window(second).close();
+        Thread.sleep(10000);
+
+        for(String tem: DRIVER.getWindowHandles()){
+          third = tem;
+          System.out.println("third2: " + third);
+        }
+        DRIVER.switchTo().window(third);
+        Thread.sleep(10000);
+        switchMetamask222(third);
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -156,8 +170,32 @@ public class BaseBak {
 
     DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div").click();
     DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+  }
 
+  public void switchMetamask222(String fromHandle) throws Exception{
+    String metaMaskUrl = "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html";
+    String js = "window.open(\"" + metaMaskUrl + "\")";
+    DRIVER.executeScript(js);
+    DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    DRIVER.get(metaMaskUrl);
+    DRIVER.get(metaMaskUrl);
+    DRIVER.get(metaMaskUrl);
+    DRIVER.get(metaMaskUrl);
+    DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    String to = "0xEbae50590810b05D4B403F13766f213518Edef65";
+    switchMetamaskAddress(to);
+    DRIVER.manage().window().maximize();
+    for(String tem: DRIVER.getWindowHandles()){
+      if(!(fromHandle.equalsIgnoreCase(tem))){
+        DRIVER.switchTo().window(tem).close();
+      }
+    }
+    DRIVER.switchTo().window(fromHandle);
+    DRIVER.navigate().refresh();
+    Thread.sleep(10000);
+  }
 
+  public void loginTronlink(){
 
   }
 }
