@@ -5,8 +5,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import tron.defi.pages.MetaMaskLoginPage;
 import tron.common.utils.Configuration;
+import tron.defi.pages.MetaMaskLoginPage;
 import tron.defi.pages.TronlinkLoginPage;
 
 import java.io.IOException;
@@ -132,13 +132,16 @@ public class BaseBak {
     Runtime.getRuntime().exec("sh kill_chrome.sh");
   }
 
-  public void switchMetamaskAddress(String add) {
+  public void switchMetamaskAddress(String add) throws Exception{
     DRIVER.manage().window().setSize(new Dimension(357, 650));
     DRIVER.findElementByClassName("identicon__address-wrapper").click();
-    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    Thread.sleep(10000);
     DRIVER.findElement(By.id("search-accounts")).sendKeys(add);
-    DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    Thread.sleep(10000);
     DRIVER.findElementByXPath("/html/body/div[1]/div/div[3]/div[4]/div[3]/button").click();
+    Thread.sleep(20000);
     DRIVER.manage().window().maximize();
   }
 
@@ -177,12 +180,14 @@ public class BaseBak {
     String js = "window.open(\"" + metaMaskUrl + "\")";
     DRIVER.executeScript(js);
     DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    for (String tem : DRIVER.getWindowHandles()) {
+      if (!(fromHandle.equalsIgnoreCase(tem))) {
+        DRIVER.switchTo().window(tem);
+      }
+    }
     DRIVER.get(metaMaskUrl);
-    DRIVER.get(metaMaskUrl);
-    DRIVER.get(metaMaskUrl);
-    DRIVER.get(metaMaskUrl);
-    DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    String to = "0xEbae50590810b05D4B403F13766f213518Edef65";
+    DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    String to = "0x4DB7719251CE8BA74549BA35BBDC02418ECDE595";
     switchMetamaskAddress(to);
     DRIVER.manage().window().maximize();
     for(String tem: DRIVER.getWindowHandles()){
@@ -192,7 +197,7 @@ public class BaseBak {
     }
     DRIVER.switchTo().window(fromHandle);
     DRIVER.navigate().refresh();
-    Thread.sleep(10000);
+    Thread.sleep(20000);
   }
 
   public void loginTronlink(){
