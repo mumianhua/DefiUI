@@ -7,7 +7,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import tron.common.utils.Configuration;
 import tron.defi.pages.MetaMaskLoginPage;
+import tron.defi.pages.MetaMaskMainPage;
 import tron.defi.pages.TronlinkLoginPage;
+import tron.defi.pages.TronlinkMainPage;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -133,20 +135,22 @@ public class BaseBak {
   }
 
   public void switchMetamaskAddress(String add) throws Exception{
+    MetaMaskMainPage metaMaskMainPage = new MetaMaskMainPage(DRIVER);
     DRIVER.manage().window().setSize(new Dimension(357, 650));
-    DRIVER.findElementByClassName("identicon__address-wrapper").click();
+    metaMaskMainPage.address_btn.click();
     DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     Thread.sleep(10000);
-    DRIVER.findElement(By.id("search-accounts")).sendKeys(add);
+    metaMaskMainPage.search_input.sendKeys(add);
     DRIVER.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     Thread.sleep(10000);
-    DRIVER.findElementByXPath("/html/body/div[1]/div/div[3]/div[4]/div[3]/button").click();
+    metaMaskMainPage.search_result.click();
     Thread.sleep(20000);
     DRIVER.manage().window().maximize();
   }
 
   public void switchTronlinkAddress(String toAddress){
-    WebElement ss = DRIVER.findElementByClassName("mw-130");
+    TronlinkMainPage tronlinkMainPage = new TronlinkMainPage(DRIVER);
+    WebElement ss = tronlinkMainPage.address_btn;
     DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     if(ss == null){
       System.out.println("0000000000000");
@@ -157,10 +161,10 @@ public class BaseBak {
       ss.click();
     }
     DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/img").click(); //放大镜
+    tronlinkMainPage.search_btn.click(); //放大镜
     DRIVER.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-    WebElement tt = DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/span/input");
+    WebElement tt = tronlinkMainPage.search_input;
     if(tt == null) {
       System.out.println("222222");
       return;
@@ -171,7 +175,7 @@ public class BaseBak {
 
     DRIVER.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
-    DRIVER.findElementByXPath("/html/body/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div").click();
+    tronlinkMainPage.search_result.click();
     DRIVER.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
   }
 
