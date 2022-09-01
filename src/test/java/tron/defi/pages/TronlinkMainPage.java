@@ -17,13 +17,15 @@ public class TronlinkMainPage extends AbstractPage {
 
     @FindBy(className = "mw-130")
     public WebElement address_btn;
-
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/img")
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/img")
     public WebElement search_btn;
 
-    @FindBy(xpath = "//*[@id=\"root\"]div/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/span/input")
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div[2]/div[1]/div/div[1]/div[1]/span/input")
     public WebElement search_input;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div")
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div[2]/div[1]/div/div[1]/div[2]/div")
     public WebElement search_result;
+
+    @FindBy(className = "switch-closed")
+    public WebElement switch_closed_btn;
 }
