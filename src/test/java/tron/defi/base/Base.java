@@ -3,6 +3,8 @@ package tron.defi.base;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import tron.defi.pages.MetaMaskLoginPage;
 import tron.common.utils.Configuration;
 import tron.defi.pages.MetaMaskMainPage;
@@ -15,20 +17,25 @@ import java.util.concurrent.TimeUnit;
 public class Base {
 
   public ChromeDriver DRIVER;
-  static String password = Configuration.getByPath("testng.conf")
-      .getString("chromeExtension.password");
-  public String accountAddress001 = Configuration.getByPath("testng.conf")
-      .getString("chromeExtension.accountAddress001");
-  public String accountKey001 = Configuration.getByPath("testng.conf")
-      .getString("chromeExtension.accountKey001");
-  public String accountAddress002 = Configuration.getByPath("testng.conf")
-      .getString("chromeExtension.accountAddress002");
+  public String originBtt = Configuration.getByPath("testng.conf")
+      .getString("bttc.bttcOriginBtt");
+  public String metamaskAddress = Configuration.getByPath("testng.conf")
+      .getString("bttc.metamaskAddress");
+  public String tronlinkAddress = Configuration.getByPath("testng.conf")
+      .getString("bttc.tronlinkAddress");
+
 
   public String URL = Configuration.getByPath("testng.conf")
       .getString("bttc.url");
 
 
   Integer retryLoginTimes = 1;
+
+  @BeforeSuite(alwaysRun=true)
+  public void before() throws Exception{
+    setUpChromeDriver();
+    loginAccount();
+  }
 
 
   public void setUpChromeDriver() throws Exception {
@@ -62,8 +69,8 @@ public class Base {
         System.out.println("first: " + first);
         waitingTime(5);
 
-        String to = "0xEbae50590810b05D4B403F13766f213518Edef65";
-        switchMetamaskAddress(to);
+//        String to = "0xEbae50590810b05D4B403F13766f213518Edef65";
+        switchMetamaskAddress(metamaskAddress);
 
         //login tronlink
         String tronlinkUrl = "chrome-extension://ibnejdfjmmkpcnlpebklmnkoeoihofec/packages/popup/build/index.html";
@@ -91,7 +98,7 @@ public class Base {
         tlLoginPage.login_btn.click();
         waitingTime(10);
 
-        switchTronlinkAddress("TXTNcgJHD9GPfpiTbSG2VGtfdfii9VcpEr");
+        switchTronlinkAddress(tronlinkAddress);
         DRIVER.manage().window().maximize();
 
         //login bttc
@@ -158,6 +165,11 @@ public class Base {
 
   public void waitingTime(long time) throws InterruptedException {
     TimeUnit.SECONDS.sleep(time);
+  }
+
+  @AfterSuite(alwaysRun=true)
+  public void after() throws Exception {
+    logoutAccount();
   }
 
 }
