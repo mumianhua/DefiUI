@@ -43,6 +43,25 @@ public class WalletPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/tbody/tr[2]/td[2]/div")
     public WebElement bttMappedNetwork;
 
+    @FindBy(css = ".justify-content-end > img")
+    public WebElement pickNetworkImg;
+
+    @FindBy(css = ".table-header-filter-wrap-item:nth-child(1)")
+    public WebElement allNetwork;
+
+    @FindBy(css = ".table-header-filter-wrap-item:nth-child(2)")
+    public WebElement tronNetwork;
+
+    @FindBy(css = ".table-header-filter-wrap-item:nth-child(3)")
+    public WebElement ethNetwork;
+
+    @FindBy(css = ".table-header-filter-wrap-item:nth-child(4)")
+    public WebElement bscNetwork;
+
+    //token page 2
+//    @FindBy(css = ".ant-pagination-item-2 > a")
+    @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/ul/li[3]/a")
+    public WebElement page2Token;
 
 
 }
