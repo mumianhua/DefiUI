@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 /**
  * mine page
  */
@@ -63,5 +65,46 @@ public class WalletPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/ul/li[3]/a")
     public WebElement page2Token;
 
+//    @FindBy(className = "ant-table-row ant-table-row-level-0")
+    @FindBy(className = "ant-table-row")
+    public List<WebElement> tokenList;
 
+    /**
+     *
+     *  search token from wallet page, then use the index of token to get balance.
+     *  and the first index is 2,and then 3,4,5....
+      * @return   token balance
+     */
+    public WebElement getTokenBalance(int index){
+        String path1 = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/tbody/tr[";
+        String path2 = "]/td[3]/div";
+        String path = path1 + index + path2;
+        return driver.findElementByXPath(path);
+    }
+
+    /**
+     *
+     *  search token from wallet page, then use the index of token to get token's mapped network.
+     *  and the first index is 2,and then 3,4,5....
+     * @return   token's mapped network
+     */
+    public WebElement getTokenNetwork(int index){
+        String path1 = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/tbody/tr[";
+        String path2 = "]/td[2]/div";
+        String path = path1 + index + path2;
+        return driver.findElementByXPath(path);
+    }
+
+    /**
+     *
+     *  search token from wallet page, then use the index of token to get token's usd value.
+     *  and the first index is 2,and then 3,4,5....
+     * @return   token's usd value
+     */
+    public WebElement getTokenUsdValue(int index){
+        String path1 = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/tbody/tr[";
+        String path2 = "]/td[4]/div/span";
+        String path = path1+index+path2;
+        return driver.findElementByXPath(path);
+    }
 }

@@ -167,6 +167,10 @@ public class Base {
     TimeUnit.SECONDS.sleep(time);
   }
 
+  public void refreshPage(){
+    DRIVER.navigate().refresh();
+  }
+
   @AfterSuite(alwaysRun=true)
   public void after() throws Exception {
     logoutAccount();
