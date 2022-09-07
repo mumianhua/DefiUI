@@ -85,4 +85,46 @@ public class WalletTest extends Base {
     Assert.assertEquals(bttcUsdValue, "< $ 0.01");
   }
 
+  @Test(alwaysRun = true, description = "select address's All Token From eth network and open Hide zero balances switch")
+  public void test05SelectAllTokenFromEthExclude0Balance() throws Exception {
+    refreshPage();
+    waitingTime(7);
+    WalletPage walletPage = new WalletPage(DRIVER);
+    Actions builder = new Actions(DRIVER);
+    builder.moveToElement(walletPage.pickNetworkImg).perform();
+    walletPage.pickNetworkImg.click();
+    walletPage.pickNetworkImg.click();
+    waitingTime(1);
+    walletPage.networkEth.click();
+    waitingTime(3);
+    walletPage.closeZeroSwitch.click();
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenList.size(), 3);
+  }
+
+  @Test(alwaysRun = true, description = "select address's All Token From bsc network and open Hide zero balances switch")
+  public void test06SelectAllTokenFromBscExclude0Balance() throws Exception {
+    refreshPage();
+    waitingTime(7);
+    WalletPage walletPage = new WalletPage(DRIVER);
+    Actions builder = new Actions(DRIVER);
+    builder.moveToElement(walletPage.pickNetworkImg).perform();
+    walletPage.pickNetworkImg.click();
+    walletPage.pickNetworkImg.click();
+    waitingTime(1);
+    walletPage.networkBsc.click();
+    waitingTime(3);
+    walletPage.closeZeroSwitch.click();
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenList.size(), 3);
+  }
+
+  @Test(alwaysRun = true, description = "test total value on bttc")
+  public void test07GetTotalValueOnBttc() {
+    WalletPage walletPage = new WalletPage(DRIVER);
+    String balanceText = walletPage.totalValueOnBttc.getText().substring(1);
+    double balance = Float.valueOf(balanceText);
+    Assert.assertTrue(balance > 0 && balance<1);
+  }
+
 }

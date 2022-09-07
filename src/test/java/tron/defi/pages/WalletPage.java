@@ -69,6 +69,9 @@ public class WalletPage extends AbstractPage {
     @FindBy(className = "ant-table-row")
     public List<WebElement> tokenList;
 
+    @FindBy(className = "balance-v")
+    public WebElement totalValueOnBttc;
+
     /**
      *
      *  search token from wallet page, then use the index of token to get balance.
