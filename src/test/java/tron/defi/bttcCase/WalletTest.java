@@ -2,22 +2,12 @@ package tron.defi.bttcCase;
 
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import tron.defi.base.Base;
 import tron.defi.pages.MenuePage;
 import tron.defi.pages.WalletPage;
 
 public class WalletTest extends Base {
-//  MenuePage menuePage;
-//  WalletPage walletPage;
-//
-//  @BeforeClass
-//  public void before() throws Exception {
-//    menuePage = new MenuePage(DRIVER);
-//    walletPage = new WalletPage(DRIVER);
-//  }
-
 
   @Test(alwaysRun = true, description = "search bttc origin btt and, check balance,value and network")
   public void searchBtt() throws Exception {
