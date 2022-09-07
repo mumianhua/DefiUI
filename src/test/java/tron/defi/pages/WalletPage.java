@@ -72,6 +72,15 @@ public class WalletPage extends AbstractPage {
     @FindBy(className = "balance-v")
     public WebElement totalValueOnBttc;
 
+    @FindBy(className = "token-symbol")
+    public List<WebElement> tokenSymbol;
+
+    @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/thead/tr/th/div/span/span")
+    public WebElement nameSort;
+
+    @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/div/div/div/table/thead/tr/th[3]/div/span/span")
+    public WebElement balanceSort;
+
     /**
      *
      *  search token from wallet page, then use the index of token to get balance.

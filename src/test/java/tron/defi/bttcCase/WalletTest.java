@@ -127,4 +127,84 @@ public class WalletTest extends Base {
     Assert.assertTrue(balance > 0 && balance<1);
   }
 
+  @Test(alwaysRun = true, description = "select address's All none zero token")
+  public void test08SelectAllNoneZeroToken() throws Exception {
+    refreshPage();
+    waitingTime(7);
+    WalletPage walletPage = new WalletPage(DRIVER);
+    walletPage.closeZeroSwitch.click();
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenList.size(), 9);
+  }
+
+  @Test(alwaysRun = true, description = "sort None Zero Token By Name In TronNetwork")
+  public void test09SortNoneZeroTokenByNameInTronNetwork() throws Exception {
+    refreshPage();
+    waitingTime(7);
+    WalletPage walletPage = new WalletPage(DRIVER);
+    Actions builder = new Actions(DRIVER);
+    builder.moveToElement(walletPage.pickNetworkImg).perform();
+    walletPage.pickNetworkImg.click();
+    walletPage.pickNetworkImg.click();
+    waitingTime(1);
+    walletPage.networkTron.click();
+    waitingTime(3);
+    walletPage.closeZeroSwitch.click();
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenList.size(), 3);
+
+    walletPage.nameSort.click();  //sort by name down
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"JST_t");
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"BTT");
+
+    walletPage.nameSort.click();  //sort by name up
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"JST_t");
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"BTT");
+
+    walletPage.nameSort.click();  //sort by default name
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"JST_t");
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"BTT");
+  }
+
+  @Test(alwaysRun = true, description = "sort None Zero Token By balance In TronNetwork")
+  public void test10SortNoneZeroTokenByBalanceInTronNetwork() throws Exception {
+    refreshPage();
+    waitingTime(7);
+    WalletPage walletPage = new WalletPage(DRIVER);
+    Actions builder = new Actions(DRIVER);
+    builder.moveToElement(walletPage.pickNetworkImg).perform();
+    walletPage.pickNetworkImg.click();
+    walletPage.pickNetworkImg.click();
+    waitingTime(1);
+    walletPage.networkTron.click();
+    waitingTime(3);
+    walletPage.closeZeroSwitch.click();
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenList.size(), 3);
+
+    walletPage.balanceSort.click();  //sort by balance down
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"BTT");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"JST_t");
+
+    walletPage.balanceSort.click();  //sort by balance up
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"BTT");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"JST_t");
+
+    walletPage.balanceSort.click();  //sort by default balance
+    waitingTime(2);
+    Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"TRX");
+    Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"JST_t");
+    Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"BTT");
+  }
+
 }
