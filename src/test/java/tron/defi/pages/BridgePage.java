@@ -44,9 +44,16 @@ public class BridgePage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"root\"]/div/section/main/section/div/div[2]/div[1]/div[2]/div[4]/div/div[2]")
     public WebElement toNetworkSpan ;
 
+    @FindBy(xpath = "//*[@id=\"root\"]/div/section/main/section/div/div[2]/div[1]/div[4]/div[2]/div/input")
+    public WebElement crossAmountInput ;
+
     //total is 8, 0-3: from, 4-7:to
     @FindBy(className = "name")
     public List<WebElement> toNetworkList;
+
+    //total is 2, 0: from, 1: receive
+    @FindBy(className = "receive-amoutn-wrap")
+    public List<WebElement> crossFromReceiveAmountDivList;
 
     /**
      * get from network

@@ -22,6 +22,8 @@ public class Base {
       .getString("bttc.bttcOriginBtt");
   public String tronNft = Configuration.getByPath("testng.conf")
       .getString("bttc.tronNft");
+  public String tronJst = Configuration.getByPath("testng.conf")
+      .getString("bttc.tronJst");
   public String metamaskAddress = Configuration.getByPath("testng.conf")
       .getString("bttc.metamaskAddress");
   public String tronlinkAddress = Configuration.getByPath("testng.conf")

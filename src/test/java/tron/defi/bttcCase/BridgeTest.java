@@ -73,4 +73,38 @@ public class BridgeTest extends Base {
     Assert.assertTrue(bridgePage.crossChainBtn.isEnabled());
   }
 
+  @Test(alwaysRun = true, description = "test cross jst from tron to eth")
+  public void test04CrossJstFromTronToEth() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.bridgeBtn.click();
+    waitingTime(2);
+
+    String crossAmount = "0.1";
+    BridgePage bridgePage = new BridgePage(DRIVER);
+    bridgePage.fromNetworkSpan.click();
+    bridgePage.fromNetworkSpan.click();
+    bridgePage.fromNetworkSpan.click();
+    waitingTime(1);
+    bridgePage.getFromNetworkDiv(2).click(); //from tron
+    waitingTime(3);
+    bridgePage.toNetworkSpan.click();
+    waitingTime(3);
+    bridgePage.toNetworkList.get(6).click();
+    waitingTime(2);
+    Assert.assertFalse(bridgePage.crossChainBtn.isEnabled());
+    bridgePage.tokenShow.click();
+    waitingTime(2);
+    bridgePage.searchTokenInput.sendKeys("jst");
+    waitingTime(3);
+    bridgePage.searchTokenResult.click();
+    waitingTime(2);
+    bridgePage.crossAmountInput.sendKeys("0.1");
+    waitingTime(2);
+    Assert.assertTrue(bridgePage.crossChainBtn.isEnabled());
+    String fromAmount = bridgePage.crossFromReceiveAmountDivList.get(0).getText();
+    String toAmount = bridgePage.crossFromReceiveAmountDivList.get(1).getText();
+    Assert.assertEquals(fromAmount, toAmount);
+    Assert.assertEquals(crossAmount, toAmount);
+  }
+
 }
