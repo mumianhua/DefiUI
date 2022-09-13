@@ -1,6 +1,7 @@
 package tron.defi.base;
 
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterSuite;
@@ -19,6 +20,10 @@ public class Base {
   public ChromeDriver DRIVER;
   public String originBtt = Configuration.getByPath("testng.conf")
       .getString("bttc.bttcOriginBtt");
+  public String tronNft = Configuration.getByPath("testng.conf")
+      .getString("bttc.tronNft");
+  public String tronJst = Configuration.getByPath("testng.conf")
+      .getString("bttc.tronJst");
   public String metamaskAddress = Configuration.getByPath("testng.conf")
       .getString("bttc.metamaskAddress");
   public String tronlinkAddress = Configuration.getByPath("testng.conf")
@@ -40,7 +45,7 @@ public class Base {
 
   public void setUpChromeDriver() throws Exception {
 //      killChromePid();
-    System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver103");
+    System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver105");
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--user-data-dir=/Users/sophiawang/Library/Application Support/Google/Chrome/");
     options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -150,10 +155,16 @@ public class Base {
   public void switchTronlinkAddress(String toAddress) throws Exception{
     TronlinkMainPage tronlinkMainPage = new TronlinkMainPage(DRIVER);
     waitingTime(5);
-//    WebElement closeBtn = DRIVER.findElementByClassName("switch-closed");
-//    if (closeBtn != null && closeBtn.isDisplayed()){
-//      tronlinkMainPage.switch_closed_btn.click();
-//    }
+
+    try {
+      WebElement closeBtn = DRIVER.findElementByClassName("switch-closed");
+      if (closeBtn != null && closeBtn.isDisplayed()){
+        tronlinkMainPage.switch_closed_btn.click();
+      }
+    } catch (Exception e){
+      System.out.println("6666666: no need to close");
+    }
+
     tronlinkMainPage.address_btn.click();
     waitingTime(5);
     tronlinkMainPage.search_btn.click(); //放大镜
@@ -170,6 +181,14 @@ public class Base {
   public void refreshPage(){
     DRIVER.navigate().refresh();
   }
+
+  public int getArrivingTime(String timeText){
+    int index = timeText.indexOf('m');
+    String timeStr = timeText.substring(0, index-1);
+    System.out.println("timeText: " + timeText +"    timeStr: " + timeStr);
+    return Integer.valueOf(timeStr);
+  }
+
 
   @AfterSuite(alwaysRun=true)
   public void after() throws Exception {

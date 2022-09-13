@@ -28,7 +28,7 @@ public class MenuePage extends AbstractPage {
     public WebElement stakingBtn;
 
     @FindBy(css = ".menu-list-li:nth-child(5) .inn-title")
-    public WebElement convertBtn;
+    public WebElement converterBtn;
 
     @FindBy(css = ".menu-list-li:nth-child(6) .inn-title")
     public WebElement bttRedenominationBtn;

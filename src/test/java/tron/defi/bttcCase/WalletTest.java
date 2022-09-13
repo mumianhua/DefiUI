@@ -193,12 +193,23 @@ public class WalletTest extends Base {
     Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"BTT");
     Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"TRX");
     Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"JST_t");
+    double firstBalance = Double.valueOf(walletPage.getTokenBalance(2).getText());
+    double secondBalance = Double.valueOf(walletPage.getTokenBalance(3).getText());
+    double thirdBalance = Double.valueOf(walletPage.getTokenBalance(4).getText());
+    Assert.assertTrue(firstBalance >= secondBalance);
+    Assert.assertTrue(secondBalance >= thirdBalance);
 
     walletPage.balanceSort.click();  //sort by balance up
     waitingTime(2);
     Assert.assertEquals(walletPage.tokenSymbol.get(2).getText(),"BTT");
     Assert.assertEquals(walletPage.tokenSymbol.get(1).getText(),"TRX");
     Assert.assertEquals(walletPage.tokenSymbol.get(0).getText(),"JST_t");
+
+    firstBalance = Double.valueOf(walletPage.getTokenBalance(2).getText());
+    secondBalance = Double.valueOf(walletPage.getTokenBalance(3).getText());
+    thirdBalance = Double.valueOf(walletPage.getTokenBalance(4).getText());
+    Assert.assertTrue(firstBalance <= secondBalance);
+    Assert.assertTrue(secondBalance <= thirdBalance);
 
     walletPage.balanceSort.click();  //sort by default balance
     waitingTime(2);
