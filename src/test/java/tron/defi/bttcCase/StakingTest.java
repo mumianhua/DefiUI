@@ -1,48 +1,143 @@
 package tron.defi.bttcCase;
 
+import lombok.val;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tron.defi.base.Base;
 import tron.defi.pages.MenuePage;
-import tron.defi.pages.WalletPage;
 import tron.defi.pages.StakingPage;
+import tron.defi.pages.WalletPage;
+
+import static java.lang.Float.valueOf;
 
 public class StakingTest extends Base {
 
   @Test(alwaysRun = true, description = "staking details have value")
-  public void haveValue() throws Exception {
+  public void test01haveStakingValue() throws Exception {
     MenuePage menuePage = new MenuePage(DRIVER);
     menuePage.stakingBtn.click();
     waitingTime(2);
     StakingPage stakingPage = new StakingPage(DRIVER);
-    //walletPage.searchTokenInput.sendKeys(originBtt);
-    //waitingTime(3);
-    String totalStake = stakingPage.totalStake.getText();
-    Assert.assertNotNull(totalStake);
 
-    String totalRewards = stakingPage.totalRewards.getText();
-    Assert.assertNotNull(totalRewards);
+    String totalStakeText = stakingPage.totalStake.getText().substring(0,1);
+    double totalStake = valueOf(totalStakeText);
+    Assert.assertTrue(totalStake > 0);
 
-    String stakingAPY = stakingPage.stakingAPY.getText();
-    Assert.assertNotNull(stakingAPY);
+    String totalRewardsText = stakingPage.totalRewards.getText().substring(0,1);
+    double totalRewards = valueOf(totalRewardsText);
+    Assert.assertTrue(totalRewards>0);
+
+    String stakingAPYText = stakingPage.stakingAPY.getText().substring(0,1);
+    double stakingAPY = valueOf(stakingAPYText);
+    Assert.assertTrue(stakingAPY>0);
+
+    String deliveryBlocksText = stakingPage.deliveryBlocks.getText().substring(0,1);
+    double deliveryBlocks = valueOf(deliveryBlocksText);
+    Assert.assertTrue(deliveryBlocks > 0);
+
+    String tronCheckpointsText = stakingPage.tronCheckpoints.getText().substring(0,1);
+    double tronCheckpoints = valueOf(tronCheckpointsText);
+    Assert.assertTrue(tronCheckpoints > 0);
+
+    String ethCheckpointsText = stakingPage.ethCheckpoints.getText().substring(0,1);
+    double ethCheckpoints = valueOf(ethCheckpointsText);
+    Assert.assertTrue(ethCheckpoints > 0);
+
+    String bscCheckpointsText = stakingPage.bscCheckpoints.getText().substring(0,1);
+    double bscCheckpoints = valueOf(bscCheckpointsText);
+    Assert.assertTrue(bscCheckpoints > 0);
   }
 
-//  @Test(alwaysRun = true, description = "select address's All Token From Tron network")
-//  public void selectAllTokenFromTron() throws Exception {
-//    MenuePage menuePage = new MenuePage(DRIVER);
-//    menuePage.walletBtn.click();
-//    waitingTime(2);
-//    WalletPage walletPage = new WalletPage(DRIVER);
-//    Actions builder = new Actions(DRIVER);
-//    builder.moveToElement(walletPage.pickNetworkImg).perform();
-//    walletPage.pickNetworkImg.click();
-//    waitingTime(2);
-//    walletPage.networkTron.click();
-//    waitingTime(3);
-//    DRIVER.executeScript("arguments[0].scrollIntoView();", walletPage.page2Token);
-//    waitingTime(3);
-//    walletPage.page2Token.click();
-//  }
+  @Test(alwaysRun = true, description = "search by validator name and check value")
+  public void test02SearchByValidator() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    String allValidators = stakingPage.allValidatorTitle.getText();
+    Assert.assertEquals(allValidators, "All Validators");
+
+    stakingPage.searchValidatorInput.sendKeys("binance");
+    waitingTime(1);
+    String validatorName = stakingPage.validatorName.getText();
+    Assert.assertEquals(validatorName, "Binance Staking");
+
+    String validatorApyText = stakingPage.validatorApy.getText().replace("%","");
+    double validatorApy = valueOf(validatorApyText);
+    Assert.assertTrue(validatorApy>0);
+
+    String validatorStakedText = stakingPage.validatorStaked.getText().substring(0,1);
+    double validatorStaked = valueOf(validatorStakedText);
+    Assert.assertTrue(validatorStaked > 0);
+
+    String nodeEfficiencyText = stakingPage.nodeEfficiency.getText().replace("%","");
+    double nodeEfficiency = valueOf(nodeEfficiencyText);
+    Assert.assertTrue(nodeEfficiency > 0);
+
+    String rewardRatioText = stakingPage.rewardRatio.getText().replace("%","");
+    double rewardRatio = valueOf(rewardRatioText);
+    Assert.assertTrue(rewardRatio > 0);
+
+  }
+
+  @Test(alwaysRun = true, description = "Validator Sort Button：APY，Staked，Node efficiency, Reward Ratio, clickable")
+  public void test03ValidatorSortButton() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    stakingPage.apyButton.click();
+    String validator1Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator1Name, "Binance Staking");
+
+    stakingPage.apyButton.click();
+    validator1Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator1Name, "Smart Consensus");
+
+    stakingPage.apyButton.click();
+    validator1Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator1Name, "Binance Staking");
+
+    stakingPage.stakedButton.click();
+    String validator2Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator2Name, "Binance Staking");
+
+    stakingPage.stakedButton.click();
+    validator2Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator2Name, "Ant Investment");
+
+    stakingPage.stakedButton.click();
+    validator2Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator2Name, "Binance Staking");
+
+    stakingPage.efficiencyButton.click();
+    String validator3Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator3Name, "Binance Staking");
+
+    stakingPage.efficiencyButton.click();
+    validator3Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator3Name, "Smart Consensus");
+
+    stakingPage.efficiencyButton.click();
+    validator3Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator3Name, "Binance Staking");
+
+    stakingPage.rewardButton.click();
+    String validator4Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator4Name, "Binance Staking");
+
+    stakingPage.rewardButton.click();
+    validator4Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator4Name, "Binance Staking");
+
+    stakingPage.rewardButton.click();
+    validator4Name = stakingPage.validatorName.getText();
+    Assert.assertEquals(validator4Name, "Binance Staking");
+
+
+  }
 
 }
