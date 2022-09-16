@@ -85,25 +85,63 @@ public class StakingPage extends AbstractPage {
     @FindBy(css = "th.right:nth-child(5)")
     public WebElement rewardButton;
 
-//    @FindBy(css = ".justify-content-end > img")
-//    public WebElement pickNetworkImg;
-//
-//    @FindBy(css = ".table-header-filter-wrap-item:nth-child(1)")
-//    public WebElement allNetwork;
-//
-//    @FindBy(css = ".table-header-filter-wrap-item:nth-child(2)")
-//    public WebElement tronNetwork;
-//
-//    @FindBy(css = ".table-header-filter-wrap-item:nth-child(3)")
-//    public WebElement ethNetwork;
-//
-//    @FindBy(css = ".table-header-filter-wrap-item:nth-child(4)")
-//    public WebElement bscNetwork;
-//
-//    //token page 2
-////    @FindBy(css = ".ant-pagination-item-2 > a")
-//    @FindBy(xpath = "//div[@id='wallet_list_wrap']/div[2]/div/div/ul/li[3]/a")
-//    public WebElement page2Token;
+    @FindBy(css = ".ant-input-suffix")
+    public WebElement deleteButton;
+
+
+    @FindBy(css = ".qucik-staking")
+    public WebElement quickStakeButton;
+
+    @FindBy(xpath = "//*[@id='rcDialogTitle3']")
+    public WebElement Title;
+
+    @FindBy(xpath = "//*[@id=\"stake_modal_v2\"]/div/div[1]/div[3]/span[1]")
+    public WebElement per25Button;
+
+    @FindBy(xpath = "//*[@id=\"stake_modal_v2\"]/div/div[1]/div[3]/span[2]")
+    public WebElement per50Button;
+
+    @FindBy(xpath = "//*[@id=\"stake_modal_v2\"]/div/div[1]/div[3]/span[3]")
+    public WebElement per75Button;
+
+    @FindBy(xpath = "//*[@id=\"stake_modal_v2\"]/div/div[1]/div[3]/span[4]")
+    public WebElement per100Button;
+
+    @FindBy(css = ".amount-title > span:nth-child(2) > b:nth-child(1)")
+    public WebElement getBalance;
+
+    @FindBy(xpath = "/html/body/div[2]/div/div[2]/div/div[2]/div[2]/section/div/div/div[1]/div[2]/input")
+    public WebElement inputAmount;
+
+    @FindBy(css = ".ant-modal-close-x")
+    public WebElement windowClose;
+
+    @FindBy(css = ".modal-ant-btn")
+    public WebElement nextButton;
+
+    @FindBy(css = ".staking-info-wrap > p:nth-child(3) > b:nth-child(1)")
+    public WebElement stakedAmount;
+
+    @FindBy(css = ".validator-info > p:nth-child(1)")
+    public WebElement noteWord;
+
+    @FindBy(css = ".stake-back-ico")
+    public WebElement backButton;
+
+    @FindBy(css = ".validator-info")
+    public WebElement chooseValidator;
+
+    @FindBy(css = ".validator-list-search > input:nth-child(1)")
+    public WebElement searchValidator;
+
+    @FindBy(css = ".name-s")
+    public WebElement validator;
+
+    @FindBy(css = ".valid-item-wrap")
+    public WebElement selectValidator;
+
+    @FindBy(css = ".validator-info > div:nth-child(2) > div:nth-child(1) > span:nth-child(2)")
+    public WebElement newValidator;
 
 
 }

@@ -80,6 +80,8 @@ public class StakingTest extends Base {
     double rewardRatio = valueOf(rewardRatioText);
     Assert.assertTrue(rewardRatio > 0);
 
+    stakingPage.deleteButton.click();
+
   }
 
   @Test(alwaysRun = true, description = "Validator Sort Button：APY，Staked，Node efficiency, Reward Ratio, clickable")
@@ -139,5 +141,110 @@ public class StakingTest extends Base {
 
 
   }
+  @Test(alwaysRun = true, description = "click quick stake, check the element in quick stake window")
+  public void test04QuickStake1stWindow() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
 
+    stakingPage.quickStakeButton.click();
+//    String Title = stakingPage.Title.getText();
+//    Assert.assertEquals(Title, "Quick Stake");
+
+    String per25Button = stakingPage.per25Button.getText();
+    Assert.assertEquals(per25Button, "25%");
+    stakingPage.per25Button.click();
+
+    String per50Button = stakingPage.per50Button.getText();
+    Assert.assertEquals(per50Button, "50%");
+    stakingPage.per50Button.click();
+
+    String per75Button = stakingPage.per75Button.getText();
+    Assert.assertEquals(per75Button, "75%");
+    stakingPage.per75Button.click();
+
+    String per100Button = stakingPage.per100Button.getText();
+    Assert.assertEquals(per100Button, "100%");
+    stakingPage.per100Button.click();
+
+
+  }
+
+  @Test(alwaysRun = true, description = "click quick stake, staked 100%，check the input equals the balance")
+  public void test05QuickStake100percent() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    stakingPage.quickStakeButton.click();
+
+    String getBalance = stakingPage.getBalance.getText().replace(" BTT","");
+    stakingPage.per100Button.click();
+    String inputAmount = stakingPage.inputAmount.getAttribute("value");
+    Assert.assertEquals(getBalance, inputAmount);
+    stakingPage.windowClose.click();
+
+
+  }
+
+  @Test(alwaysRun = true, description = "click quick stake, staked 100%，click next, check the stakedAmount in the 2nd window")
+  public void test06QuickStake2ndWindowStakedAmount() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    stakingPage.quickStakeButton.click();
+    stakingPage.per100Button.click();
+    String inputAmount = stakingPage.inputAmount.getAttribute("value");
+    stakingPage.nextButton.click();
+    waitingTime(2);
+    String stakedAmount = stakingPage.stakedAmount.getText().replace(" BTT","");
+    Assert.assertEquals(stakedAmount, inputAmount);
+    stakingPage.windowClose.click();
+
+  }
+
+  @Test(alwaysRun = true, description = "click quick stake, input value, click next, click return button in the 2nd window")
+  public void test07QuickStakeBackin2ndWindow() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    stakingPage.quickStakeButton.click();
+    stakingPage.inputAmount.sendKeys("1");
+    stakingPage.nextButton.click();
+    waitingTime(2);
+    String noteWord = stakingPage.noteWord.getText();
+    Assert.assertEquals(noteWord, "You will stake to the validator below");
+    stakingPage.backButton.click();
+    String per100Button = stakingPage.per100Button.getText();
+    Assert.assertEquals(per100Button, "100%");
+    stakingPage.windowClose.click();
+
+  }
+  @Test(alwaysRun = true, description = "click quick stake, input value, click next, choose validator window，search validator")
+  public void test08QuickStakeChooseValidator() throws Exception {
+    MenuePage menuePage = new MenuePage(DRIVER);
+    menuePage.stakingBtn.click();
+    waitingTime(2);
+    StakingPage stakingPage = new StakingPage(DRIVER);
+
+    stakingPage.quickStakeButton.click();
+    stakingPage.inputAmount.sendKeys("1");
+    stakingPage.nextButton.click();
+    waitingTime(2);
+    stakingPage.chooseValidator.click();
+    stakingPage.searchValidator.sendKeys("smart");
+    String validator = stakingPage.validator.getText();
+    Assert.assertEquals(validator, "Smart Consensus");
+    stakingPage.selectValidator.click();
+
+    String newValidator = stakingPage.newValidator.getText();
+    Assert.assertEquals(newValidator, "Smart Consensus");
+
+  }
 }
