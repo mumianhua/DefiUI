@@ -43,7 +43,7 @@ public class ConverterTest extends Base {
 
   @Test(alwaysRun = true, description = "test convert JST_t to JST_e and JST_b")
   public void test03ConvertDefaultTokenWithMaxAmount() throws Exception {
-    System.out.println("1");
+    System.out.println("11");
     refreshPage();
     waitingTime(7);
     ConverterPage converterPage = new ConverterPage(DRIVER);
